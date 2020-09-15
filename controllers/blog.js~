@@ -1,0 +1,9 @@
+/* GET bloglist page. */
+module.exports.contact = function(req, res) {
+  res.render('bloglist', { title: 'Blog List' });
+};
+
+/* GET blogadd page. */
+module.exports.contact = function(req, res) {
+  res.render('blogadd', { title: 'Blog Add' });
+};     
