@@ -1,8 +1,97 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background: #303030;
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+nav {
+    background: #800000;
+}
+
+#blog {
+    background:silver;
+    text-align: center;
+}
+
+#pageTitle {
+    font-size: 48pt;
+    color: white;
+    text-align: center;
+}
+
+#blogTitle {
+    font-size: 32pt;
+    font-weight: bold;
+    font-variant: small-caps;
+    color: #505050;
+    text-decoration: underline;
+    text-align: center;
+    
 }
 
 a {
-  color: #00B7FF;
+    color: #800000;
+    font-style: italic;
+    font-variant: small-caps;
+}
+
+#date {
+    font-size: 12pt;
+    color: #A9A9A9;
+    font-style: italic;
+}
+
+#blogText {
+    font-size: 18pt;
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+#addPageContent {
+    color: silver;
+    text-align: center;
+}
+
+#homeTitle {
+    text-align: center;
+    font-size: 50pt;
+    color: silver;
+    text-decoration: underline;
+}
+
+#homeContent {
+    text-align: center;
+    font-size: 24pt;
+    color: #707070;
+    padding: 100px;
+}
+
+#editTitle {
+    text-align: center;
+    font-size: 50pt;
+    font-variant: small-caps;
+    color: silver;
+    text-decoration: underline;
+}
+
+#editContent {
+    text-align: center;
+    font-size: 24pt;
+    color: yellow;
+    padding: 200px;
+}
+
+#deleteTitle {
+    text-align: center;
+    font-size: 50pt;
+    font-variant: small-caps;
+    color: silver;
+    text-decoration: underline;
+}
+
+#deleteContent {
+    text-align: center;
+    font-size: 24pt;
+    color: yellow;
+    padding: 200px;
 }

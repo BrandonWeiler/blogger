@@ -7,7 +7,19 @@
   </head>
   <body>
     <% include ./nav %>
-    <h1><%= title %></h1>
-    <p>This portion of the page is currently UNDER CONSTRUCTION.</p>
+    <p id="pageTitle"><%= title %></p>
+    <div>
+      <% for(var i = 0; i < entries.length; i++) { %>
+	 <div id="blog">
+	     <p id="blogTitle"><%= entries[i].blogTitle %></p>
+	     <p id="blogText"><%= entries[i].blogText %></p>
+	     <p id="date"><%= entries[i].dateStamp %></p>
+	     <a href="/blogedit">Edit Blog</a><p>     </p>
+	     <a href="/blogdelete">Delete Blog</a>
+	     <br></br>
+	 </div>
+	 <br></br>
+      <% } %> 
+    </div>
   </body>
 </html>                
