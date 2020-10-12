@@ -10,14 +10,14 @@
     <p id="editTitle"><%= title %></p>
     <form method="POST" action="/blogedit/<%=blog._id%>">
 		  <div class="form-group">
-			  <label for="blogTitle">Blog Title:</label>
+			  <label id="blogAddLabel">Blog Title:</label>
 			  <input type="text" class="form-control"  id="blogTitle" name="blogTitle" value= "<%= blog.blogTitle %>">
 		  </div>
 		  <div class="form-group">
-			  <label for="blogText">Blog Text:</label>
-			  <input type="text" class="form-control" id="blogText" name="blogText" value= "<%= blog.blogText %>">
+			  <label id="blogAddLabel">Blog Text:</label>
+			  <textarea type="text" class= "form-control" name="blogText" rows="20" ><%=blog.blogText %></textarea>
 		  </div>
-		  <button type="submit" class="btn btn-dark">Save post</button>
+		  <button type="submit">Update Post</button>
 	  </form>
   </body>
 </html>                

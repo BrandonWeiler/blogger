@@ -10,14 +10,14 @@
     <p id="pageTitle"><%= title %></p>
     <form method="POST" action="/blogadd">
   	<div class="form-group">
-    	<label for="blogTitle">Blog Title:</label>
-    	<input type="text" class="form-control" placeholder="Enter The Blog Title" id="blogTitle" name="blogTitle">
+    	<label id="blogAddLabel" for="blogTitle">Blog Title:</label>
+    	<input type="text" class="form-control" placeholder="Enter The Blog Title" name="blogTitle">
   	</div>
   	<div class="form-group">
-    	<label for="blogText">Blog Text:</label>
-    	<input type="text" class="form-control" placeholder="Enter Your Blog Text" id="blogText" name="blogText">
+    	<label id="blogAddLabel" for="blogText">Blog Text:</label>
+      <textarea type="text" class= "form-control" name="blogText" rows="20" placeholder="Blog Entry Goes Here!"></textarea>
   	</div>
-  	<button type="submit" class="btn btn-primary">Submit Blog</button>
+  	<button type="submit">Submit Blog</button>
 </form>
   </body>
 </html>                

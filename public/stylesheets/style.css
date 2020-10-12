@@ -30,14 +30,14 @@ nav {
 }
 
 a {
-    color: #800000;
+    color: #ec0505;
     font-style: italic;
     font-variant: small-caps;
 }
 
 #date {
     font-size: 12pt;
-    color: #A9A9A9;
+    color: blue;
     font-style: italic;
 }
 
@@ -94,4 +94,15 @@ a {
     font-size: 24pt;
     color: yellow;
     padding: 200px;
+}
+#blogAddLabel {
+    color: white;
+    font-variant: small-caps;
+    text-align: center;
+}
+#noBlogs {
+    color: #707070;
+    text-align: center;
+    font-size: 36pt;
+    font-variant: small-caps;
 }

@@ -9,11 +9,14 @@
     <% include ./nav %>
     <p id="pageTitle"><%= title %></p>
     <div>
+      <% if(!blog.length){
+        %><p id="noBlogs">There are no blogs to list.</p>
+      <% } %>
       <% for(var i = 0; i < blog.length; i++) { %>
 	 <div id="blog">
 	     <p id="blogTitle"><%= blog[i].blogTitle %></p>
 	     <p id="blogText"><%= blog[i].blogText %></p>
-	     <p id="date"><%= blog[i].dateStamp %></p>
+	     <p id="date"><%= new Date(blog[i].dateStamp).toUTCString() %></p>
 	     <a href="/blogedit/<%= blog[i]._id %>">Edit Blog</a><p>     </p>
 	     <a href="/blogdelete/<%= blog[i]._id %>">Delete Blog</a>
 	     <br></br>

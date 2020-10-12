@@ -61,7 +61,7 @@ module.exports.addBlog = function(req, res){
     postdata = {
         blogTitle: req.body.blogTitle,
         blogText: req.body.blogText,
-        dateStamp: Date.now()
+        dateStamp: Date()
     }; 
 
     requestOptions = {
