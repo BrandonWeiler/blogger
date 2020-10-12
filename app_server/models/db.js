@@ -42,3 +42,5 @@ process.on('SIGTERM', function() {
   gracefulShutdown('Heroku app shutdown', function () {
     process.exit(0);
 }); });
+
+require('./blogs');
