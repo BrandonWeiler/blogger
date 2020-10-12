@@ -8,6 +8,16 @@
   <body>
     <% include ./nav %>
     <p id="editTitle"><%= title %></p>
-    <p id="editContent">This part of the site is currently UNDER CONSTRUCTION</p>
+    <form method="POST" action="/blogedit/<%= blog._id%>">
+		  <div class="form-group">
+			  <label for="blogTitle">Blog Title:</label>
+			  <input type="text" class="form-control"  id="blogTitle" name="blogTitle" value= "<%= blog.blogTitle %>">
+		  </div>
+		  <div class="form-group">
+			  <label for="blogText">Blog Text:</label>
+			  <input type="text" class="form-control" id="blogText" name="blogText" value= "<%= blog.blogText %>">
+		  </div>
+		  <button type="submit" class="btn btn-dark">Save post</button>
+	  </form>
   </body>
 </html>                

@@ -8,6 +8,16 @@
   <body>
     <% include ./nav %>
     <p id="pageTitle"><%= title %></p>
-    <p id="addPageContent">This part of the site is currently UNDER CONSTRUCTION</p>
+    <form method="POST" action="/blogadd">
+  	<div class="form-group">
+    	<label for="blogTitle">Blog Title:</label>
+    	<input type="text" class="form-control" placeholder="Enter The Blog Title" id="blogTitle" name="blogTitle">
+  	</div>
+  	<div class="form-group">
+    	<label for="blogText">Blog Text:</label>
+    	<input type="text" class="form-control" placeholder="Enter Your Blog Text" id="blogText" name="blogText">
+  	</div>
+  	<button type="submit" class="btn btn-primary">Submit Blog</button>
+</form>
   </body>
 </html>                
