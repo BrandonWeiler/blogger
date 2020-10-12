@@ -35,7 +35,7 @@ module.exports.blogReadOne = function(req, res) {
   };
 
   /* GET a list of all blogs */
-module.exports.blogsList = function(req, res) {
+module.exports.blogList = function(req, res) {
 	console.log('Getting list of blogs...');
 	Blog
 		.find()
@@ -91,7 +91,7 @@ module.exports.blogCreate = function(req, res) {
   
 /* Update one blog entry */
 module.exports.blogUpdateOne = function(req, res) {
-    console.log("Updating a blog entry with id of " + req.params.id);
+    console.log("Updating a blog entry with id of " + req.params.blogid);
     console.log(req.body);
     blogModel
   	  .findOneAndUpdate(
@@ -109,7 +109,7 @@ module.exports.blogUpdateOne = function(req, res) {
 
 /* Delete one blog entry */
 module.exports.blogDeleteOne = function(req, res) {
-    console.log("Deleting blog entry with id of " + req.params.id);
+    console.log("Deleting blog entry with id of " + req.params.blogid);
     console.log(req.body);
     blogModel
         .findByIdAndRemove(req.params.blogid)

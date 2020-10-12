@@ -9,11 +9,11 @@
     <% include ./nav %>
     <p id="pageTitle"><%= title %></p>
     <div>
-      <% for(var i = 0; i < entries.length; i++) { %>
+      <% for(var i = 0; i < blogs.length; i++) { %>
 	 <div id="blog">
-	     <p id="blogTitle"><%= entries[i].blogTitle %></p>
-	     <p id="blogText"><%= entries[i].blogText %></p>
-	     <p id="date"><%= entries[i].dateStamp %></p>
+	     <p id="blogTitle"><%= blogs[i].blogTitle %></p>
+	     <p id="blogText"><%= blogs[i].blogText %></p>
+	     <p id="date"><%= blogs[i].dateStamp %></p>
 	     <a href="/blogedit">Edit Blog</a><p>     </p>
 	     <a href="/blogdelete">Delete Blog</a>
 	     <br></br>

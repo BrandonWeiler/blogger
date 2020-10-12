@@ -1,6 +1,6 @@
 var request = require('request');
 var apiOptions = {
-	server : "http://localhost:3000"  // Change as needed
+	server : "http://3.88.29.46" 
   }; 
 
 
@@ -56,7 +56,7 @@ module.exports.blogAdd = function(req, res) {
 /* Blog Add Post */
 module.exports.addBlog = function(req, res){
     var requestOptions, path, postdata;
-    path = '/api/blog/';
+    path = '/api/blog';
 
     postdata = {
         blogTitle: req.body.blogTitle,
@@ -116,7 +116,7 @@ var renderEditPage = function(req, res, responseBody){
 module.exports.editBlog = function(req, res){
     var requestOptions, path, postdata;
     var id = req.params.blogid;
-    path = '/api/blog/' + blogid;
+    path = '/api/blog/' + id;
 
     postdata = {
         blogTitle: req.body.blogTitle,
@@ -174,7 +174,7 @@ var renderDeletePage = function(req, res, responseBody){
 module.exports.deleteBlog = function(req, res){
     var requestOptions, path, postdata;
     var id = req.params.blogid;
-    path = '/api/blog/' + blogid;
+    path = '/api/blog/' + id;
 
     requestOptions = {
 	url : apiOptions.server + path,

@@ -1,6 +1,6 @@
 var mongoose = require( 'mongoose' );
 var gracefulShutdown;
-var dbURI = 'mongodb://blogs:blog@localhost/blogger';
+var dbURI = 'mongodb://blogs:blog@localhost/blog';
 mongoose.connect(dbURI, {useNewUrlParser: true});
 
 // Monitor and report when database is connected                      
