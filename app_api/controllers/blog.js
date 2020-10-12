@@ -93,7 +93,7 @@ module.exports.blogCreate = function(req, res) {
 module.exports.blogUpdateOne = function(req, res) {
     console.log("Updating a blog entry with id of " + req.params.blogid);
     console.log(req.body);
-    blogModel
+    Blog
   	  .findOneAndUpdate(
 	     { _id: req.params.blogid },
  	     { $set: {"blogTitle": req.body.blogTitle, "blogText": req.body.blogText, "dateStamp": req.body.dateStamp}},
@@ -111,7 +111,7 @@ module.exports.blogUpdateOne = function(req, res) {
 module.exports.blogDeleteOne = function(req, res) {
     console.log("Deleting blog entry with id of " + req.params.blogid);
     console.log(req.body);
-    blogModel
+    Blog
         .findByIdAndRemove(req.params.blogid)
         .exec (
             function(err, response) {

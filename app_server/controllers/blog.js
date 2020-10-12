@@ -28,7 +28,7 @@ var renderListPage = function(req, res, responseBody){
         pageHeader: {
             title: 'Blog List'
         },
-        blogs: responseBody
+        blog: responseBody
     });
 }; 
 
@@ -107,7 +107,7 @@ var renderEditPage = function(req, res, responseBody){
         pageHeader: {
             title: 'Blog Edit'
         },
-        book: responseBody
+        blog: responseBody
     });
 };
 
