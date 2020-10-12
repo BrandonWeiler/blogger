@@ -1,4 +1,0 @@
-/* GET home page. */
-module.exports.contact = function(req, res) {
-  res.render('home', { title: 'Brandon A. Weiler Blog Site' });
-};     
