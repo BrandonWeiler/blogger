@@ -36,19 +36,18 @@
 				
 			<script type="text/ng-template" id="pages/bloglist.html">
     			<div id='home'>
-					<p id="homeTitle">{{vm.title}}</p>
-					<p id="homeContent">{{vm.message}}</p>
+					<p id="homeTitle">{{ vm.title }}</p>
+					<p id="homeContent">{{ vm.message }}</p>
 				</div>
-				<div>
-					<div ng-repeat="blog in blogs" id="blog">
-						<div id="blog">
-							<p id="blogTitle">{{blog.blogTitle}}</p>
-							<p id="blogText">{{blog.blogText}}</p>
-							<p id="date">{{new Date(blog.dateStamp).toUTCString()}}</p>
-							<a href="/blogedit/{{blog._id}}">Edit Blog</a><p>     </p>
-							<a href="/blogdelete/{{blog._id}}">Delete Blog</a>
-						</div>	
-					</div>
+				<div ng-repeat="entry in blogs">
+					<div id="blog">
+						<p id="blogTitle">{{ entry.blogTitle }}</p>
+						<p id="blogText">{{ entry.blogText }}</p>
+						<p id="date">{{ entry.dateStamp }}</p>
+						<a href="/blogedit/{{ entry._id }}">Edit Blog</a><p>     </p>
+						<a href="/blogdelete/{{ entry._id }}">Delete Blog</a>
+						<br><br>
+					</div>	
 				</div>
 			</script>
 
@@ -63,8 +62,8 @@
 						  <input type="text" class="form-control" placeholder="Enter the Blog Entry Title" id="blogTitle" name="blogTitle">
 					</div>	
 					<div class="form-group">
-						  <label id="blogAddLabel">Blog Text:</label>
-						  <input type="text" class="form-control" placeholder="Enter the Blog Text" id="blogText" name="blogText">
+						<label id="blogAddLabel" for="blogText">Blog Text:</label>
+						<textarea type="text" class= "form-control" name="blogText" rows="20" placeholder="Blog Entry Goes Here!"></textarea>
 					</div>
 					<button type="submit">Submit</button>
 			  </form>
@@ -82,7 +81,7 @@
 					</div>
 					<div class="form-group">
 						<label id="blogAddLabel" for="blogText">Blog Text:</label>
-						<input type="text" class="form-control" id="blogText" name="blogText" value= "{{blog.blogText}}">
+						<textarea type="text" class= "form-control" name="blogText" rows="20" >{{blog.blogText}}</textarea>
 					</div>
 					<button type="submit">Save Entry</button>
 				   </form>	
@@ -100,7 +99,7 @@
 					</div>
 					<div class="form-group">
 						<label id="blogAddLabel" for="blog_text">Blog Text:</label>
-						<input type="text" class="form-control" id="blogText" name="blogText" value= "{{blog.blogText}}" readonly>
+						<textarea type="text" class= "form-control" name="blogText" rows="20" readonly>{{blog.blogText}}</textarea>
 					</div>
 					<button type="submit">Delete this entry</button>
 					<a href="/bloglist" > Cancel </a>

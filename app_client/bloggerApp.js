@@ -58,7 +58,6 @@ app.controller('listCtrl',['$http', '$scope',  function listCtrl($http, $scope){
 		.then(function (data){
 			$scope.blogs = data.data;
 			console.log(data);
-			vm.message = "Found blogs";
 		},
 		function (e){
 			vm.message = "Could not get blog list";
@@ -150,21 +149,21 @@ app.controller('deleteCtrl', [ '$http', '$routeParams', '$scope','$location', fu
 
 /* REST Functions */
 function getBlogList($http) {
-    return $http.get('/api/blogs');
+    return $http.get('/api/blog');
 }
 
 function readOneEntry($http, blogid) {
-    return $http.get('/api/blogs/' + blogid);
+    return $http.get('/api/blog/' + blogid);
 }
 
 function updateOneEntry($http, data, blogid) {
-    return $http.put('/api/blogs/' + blogid , data);
+    return $http.put('/api/blog/' + blogid , data);
 }
 
 function addOneEntry($http, data) {
-    return $http.post('/api/blogs', data);
+    return $http.post('/api/blog', data);
 }
 
 function deleteOneEntry($http, blogid) {
-    return $http.delete('/api/blogs/' + blogid);
+    return $http.delete('/api/blog/' + blogid);
 }
