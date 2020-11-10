@@ -43,7 +43,7 @@
 					<div id="blog">
 						<p id="blogTitle">{{ entry.blogTitle }}</p>
 						<p id="blogText">{{ entry.blogText }}</p>
-						<p id="date">{{ entry.dateStamp }}</p>
+						<p id="date">{{ entry.dateStamp | date:'short' }}</p>
 						<a href="/blogedit/{{ entry._id }}">Edit Blog</a><p>     </p>
 						<a href="/blogdelete/{{ entry._id }}">Delete Blog</a>
 						<br><br>
