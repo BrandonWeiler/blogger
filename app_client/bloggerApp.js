@@ -148,24 +148,24 @@ app.controller('addCtrl',[ '$http', '$location', 'authentication', function addC
 	var vm = this;
     	vm.blog = {};
     	vm.title = "Brandon A. Weiler\'s Blog Site";
-		vm.message = "Add A Blog Entry";
+		  vm.message = "Add A Blog Entry";
 	
-         vm.onSubmit = function() {
+      vm.onSubmit = function() {
 
-	var data = vm.blog;
+	      var data = vm.blog;
 
-	data.blogTitle = userForm.blogTitle.value;
-	data.blogText = userForm.blogText.value;
+	      data.blogTitle = userForm.blogTitle.value;
+	      data.blogText = userForm.blogText.value;
 
-	addOneEntry($http, data, authentication)
-		.then(function successCallBack(data) {
-		     console.log(data);
-		     $location.path('/bloglist');
-		},
-		function errorCallBack(e) {
-		    console.log(e);
-		});
-        };
+	      addOneEntry($http, data, authentication)
+		      .then(function successCallBack(data) {
+		          console.log(data);
+		          $location.path('/bloglist');
+		      },
+		      function errorCallBack(e) {
+		        console.log(e);
+		      });
+      };
 }]);
 
 app.controller('editCtrl', [ '$http', '$routeParams', '$scope', '$location', 'authentication',  function editCtrl($http, $routeParams, $scope, $location, authentication) {
@@ -177,10 +177,10 @@ app.controller('editCtrl', [ '$http', '$routeParams', '$scope', '$location', 'au
     readOneEntry($http, vm.id)
     	.then(function(data) {
     		$scope.blog = data.data;
-    },
-    function(e) {
-    	vm.message = "Could not find a blog entry with id: " + vm.id;
-    });
+      },
+      function(e) {
+    	  vm.message = "Could not find a blog entry with id: " + vm.id;
+      });
 
     vm.onSubmit = function() {
     	var data = {};
@@ -327,14 +327,14 @@ function readOneEntry($http, blogid) {
     return $http.get('/api/blog/' + blogid);
 }
 
-function updateOneEntry($http, data, blogid) {
-    return $http.put('/api/blog/' + blogid , data);
+function updateOneEntry($http, data, blogid, authentication) {
+    return $http.put('/api/blog/' + blogid , data, { headers: { Authorization: 'Bearer '+ authentication.getToken() }});
 }
 
-function addOneEntry($http, data) {
-    return $http.post('/api/blog', data);
+function addOneEntry($http, data, authentication) {
+    return $http.post('/api/blog', data, { headers: { Authorization: 'Bearer '+ authentication.getToken() }});
 }
 
-function deleteOneEntry($http, blogid) {
-    return $http.delete('/api/blog/' + blogid);
+function deleteOneEntry($http, blogid, authentication) {
+    return $http.delete('/api/blog/' + blogid, { headers: { Authorization: 'Bearer '+ authentication.getToken() }});
 }
