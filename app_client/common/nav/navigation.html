@@ -1,0 +1,25 @@
+<nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-#800000">
+	<a class="navbar-brand" href="/">My Blog</a>
+	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+		<div class="navbar-nav">
+		<ul class="navbar-nav mr-auto">
+      				
+				<li class="nav-item">
+				  <a class="nav-link"href="/bloglist"> <i class="fas fa-list-alt"></i>List Blogs</a>
+				</li>
+
+		  		<li class="nav-item">
+				  <a ng-show="vm.isLoggedIn()" class="nav-link" href="/blogadd"><i class="fas fa-plus-circle"></i>Add Blog</a>
+				</li>
+
+		  		<li class="nav-item">
+			  		<a ng-show="!vm.isLoggedIn()"  class="nav-link" href="/login"> Login</a>
+		  		</li>
+
+		 		 <li class="nav-item">
+			  		<a ng-show="vm.isLoggedIn()" class="nav-link" href="" ng-click="vm.logout()" > Logout <small>({{ vm.currentUser().email }})</small></a>
+		  		</li>
+		  </ul>
+		</div>
+	</div>
+</nav>
