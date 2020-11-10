@@ -1,6 +1,71 @@
 
 var app = angular.module('bloggerApp', ['ngRoute', 'ui.router']);
 
+//*** Authentication Service and Methods **
+app.service('authentication', authentication);
+    authentication.$inject = ['$window', '$http'];
+    function authentication ($window, $http) {
+
+        var saveToken = function (token) {
+            $window.localStorage['blog-token'] = token;
+        };
+
+        var getToken = function () {
+            return $window.localStorage['blog-token'];
+        };
+
+        var register = function(user) {
+            console.log('Registering user ' + user.email + ' ' + user.password);
+            return $http.post('/api/register', user).then(function(data){
+                saveToken(data.data.token);
+          });
+        };
+
+        var login = function(user) {
+           console.log('Attempting to login user ' + user.email + ' ' + user.password);
+            return $http.post('/api/login', user).then(function(data) {
+            	 saveToken(data.data.token);
+		    });
+        };
+
+        var logout = function() {
+            $window.localStorage.removeItem('blog-token');
+        };
+
+        var isLoggedIn = function() {
+          var token = getToken();
+
+          if(token){
+           var payload = JSON.parse($window.atob(token.split('.')[1]));
+
+            return payload.exp > Date.now() / 1000;
+          } else {
+            return false;
+          }
+        };
+
+        var currentUser = function() {
+          if(isLoggedIn()){
+            var token = getToken();
+            var payload = JSON.parse($window.atob(token.split('.')[1]));
+            return {
+              email : payload.email,
+              name : payload.name
+            };
+          }
+        };
+
+        return {
+          saveToken : saveToken,
+          getToken : getToken,
+          register : register,
+          login : login,
+          logout : logout,
+          isLoggedIn : isLoggedIn,
+          currentUser : currentUser
+        };
+}
+
 //configuring routes
 app.config(function ($locationProvider, $routeProvider) {
     $locationProvider.html5Mode({
@@ -38,6 +103,18 @@ app.config(function ($locationProvider, $routeProvider) {
 		 	controllerAs: 'vm'
 		  })
 
+		.when('/register', {
+			templateUrl: '/common/auth/register.html',
+			controller: 'registerCtrl',
+			controllerAs: 'vm'
+		})
+	
+		.when('/login', {
+			templateUrl: '/common/auth/login.html',
+			controller: 'loginCtrl',
+			controllerAs: 'vm'
+		})
+
       	.otherwise({redirectTo: '/'});
     });
 
@@ -48,11 +125,14 @@ app.controller('homeCtrl', function homeCtrl() {
     	vm.message = "Welcome to my blog! Have fun reading my random thoughts!";
 });
 
-app.controller('listCtrl',['$http', '$scope',  function listCtrl($http, $scope){
+app.controller('listCtrl',['$http', '$scope', 'authentication',  function listCtrl($http, $scope, authentication){
 	var vm = this;
 	vm.title = "Brandon A. Weiler\'s Blog Site";
 	vm.message = "List of Blog Entries";
 	
+	vm.isLoggedIn = function() {
+		return authentication.isLoggedIn();
+	}
 
 	getBlogList($http)
 		.then(function (data){
@@ -64,7 +144,7 @@ app.controller('listCtrl',['$http', '$scope',  function listCtrl($http, $scope){
 		});
 }]);
 
-app.controller('addCtrl',[ '$http', '$location', function addCtrl($http, $location) {
+app.controller('addCtrl',[ '$http', '$location', 'authentication', function addCtrl($http, $location, authentication) {
 	var vm = this;
     	vm.blog = {};
     	vm.title = "Brandon A. Weiler\'s Blog Site";
@@ -77,7 +157,7 @@ app.controller('addCtrl',[ '$http', '$location', function addCtrl($http, $locati
 	data.blogTitle = userForm.blogTitle.value;
 	data.blogText = userForm.blogText.value;
 
-	addOneEntry($http, data)
+	addOneEntry($http, data, authentication)
 		.then(function successCallBack(data) {
 		     console.log(data);
 		     $location.path('/bloglist');
@@ -88,7 +168,7 @@ app.controller('addCtrl',[ '$http', '$location', function addCtrl($http, $locati
         };
 }]);
 
-app.controller('editCtrl', [ '$http', '$routeParams', '$scope', '$location',  function editCtrl($http, $routeParams, $scope, $location) {
+app.controller('editCtrl', [ '$http', '$routeParams', '$scope', '$location', 'authentication',  function editCtrl($http, $routeParams, $scope, $location, authentication) {
     var vm = this;
     vm.title = "Brandon A. Weiler\'s Blog Site";
     vm.message = "Edit Your Blog";
@@ -107,7 +187,7 @@ app.controller('editCtrl', [ '$http', '$routeParams', '$scope', '$location',  fu
     	data.blogTitle = userForm.blogTitle.value;
     	data.blogText = userForm.blogText.value;
 
-    	updateOneEntry($http, data, vm.id)
+    	updateOneEntry($http, data, vm.id, authentication)
     		.then(function(data) {
     		    vm.message = "Entry updated.";
     		    $location.path('/bloglist');
@@ -118,7 +198,7 @@ app.controller('editCtrl', [ '$http', '$routeParams', '$scope', '$location',  fu
     }
 }]);
 
-app.controller('deleteCtrl', [ '$http', '$routeParams', '$scope','$location', function deleteCtrl($http, $routeParams, $scope, $location) {
+app.controller('deleteCtrl', [ '$http', '$routeParams', '$scope','$location', 'authentication', function deleteCtrl($http, $routeParams, $scope, $location, authentication) {
     var vm = this;
     vm.title = "Brandon A. Weiler\'s Blog Site";
     vm.message = "Delete Your Blog";
@@ -134,7 +214,7 @@ app.controller('deleteCtrl', [ '$http', '$routeParams', '$scope','$location', fu
 
     vm.onSubmit = function() {
 
-    	deleteOneEntry($http,vm.id)
+    	deleteOneEntry($http,vm.id, authentication)
     		.then(function(data) {
     		    vm.message = "Blog Deleted Successfully!";
     		    $location.path('/bloglist');
@@ -144,6 +224,97 @@ app.controller('deleteCtrl', [ '$http', '$routeParams', '$scope','$location', fu
     		});
     }
 
+}]);
+app.controller('loginCtrl', [ '$http', '$location', 'authentication', function loginCtrl($htttp, $location, authentication) {
+    var vm = this;
+
+    vm.title = 'Sign in to Blog';
+
+    vm.credentials = {
+      email : "",
+      password : ""
+    };
+
+    vm.returnPage = $location.search().page || '/';
+
+    vm.onSubmit = function () {
+      vm.formError = "";
+      if (!vm.credentials.email || !vm.credentials.password) {
+           vm.formError = "All fields required, please try again";
+        return false;
+      } 
+	  else {
+           vm.doLogin();
+      }
+    };
+
+     vm.doLogin = function() {
+      vm.formError = "";
+      authentication
+        .login(vm.credentials)
+        .then(function(){
+          $location.search('page', null); 
+          $location.path(vm.returnPage);
+	},function(e){ vm.formError = e.data.message;});
+        };
+ }]);
+
+app.controller('registerCtrl', [ '$http', '$location', 'authentication', function registerCtrl($htttp, $location, authentication) {
+    var vm = this;
+
+    vm.title = 'Create a new Blog account'
+
+    vm.credentials = {
+      name : "",
+      email : "",
+      password : ""
+    };
+
+    vm.returnPage = $location.search().page || '/';
+
+    vm.onSubmit = function () {
+      vm.formError = "";
+      if (!vm.credentials.name || !vm.credentials.email || !vm.credentials.password) {
+        vm.formError = "All fields required, please try again";
+        return false;
+      } else {
+        vm.doRegister();
+      }
+    };
+
+    vm.doRegister = function() {
+      vm.formError = "";
+      authentication
+        .register(vm.credentials)
+        .then(function(){
+          $location.search('page', null);
+          $location.path('/');
+	 },function(e){vm.formError = "Email Already Registered"});
+    };
+}]);
+
+app.directive('navigation', function() {
+    return {
+      restrict: 'EA',
+      templateUrl: '/common/nav/navigation.html',
+      controller: 'NavigationController',
+      controllerAs: 'vm'
+    };
+});
+
+app.controller('NavigationController', ['$state', '$location', 'authentication', function NavigationController($state, $location, authentication) {
+    var vm = this;
+    vm.currentPath = $location.path();
+    vm.currentUser = function()  {
+        return authentication.currentUser();
+    }
+    vm.isLoggedIn = function() {
+        return authentication.isLoggedIn();
+    }
+    vm.logout = function() {
+      authentication.logout();
+      $location.path('/');
+    };
 }]);
 
 
