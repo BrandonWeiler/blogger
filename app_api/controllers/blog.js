@@ -61,10 +61,10 @@ module.exports.blogList = function(req, res) {
 	  blogs.push({
 		blogTitle: obj.blogTitle,
 		blogText: obj.blogText,
-		dateStamp: obj.dateStamp,
-		_id: obj._id,
+		userName: obj.userName,
 		email: obj.email,
-		userName: obj.userName
+		dateStamp: obj.dateStamp,
+		_id: obj._id
 	  });
 	});
 	return blogs;
@@ -77,7 +77,6 @@ module.exports.blogCreate = function(req, res) {
 	 .create({
 		blogTitle: req.body.blogTitle,
 		blogText: req.body.blogText,
-		dateStamp: req.body.dateStamp,
 		email: req.body.email,
 		userName: req.body.userName
 		
@@ -100,7 +99,7 @@ module.exports.blogUpdateOne = function(req, res) {
     Blog
   	  .findOneAndUpdate(
 	     { _id: req.params.blogid },
- 	     { $set: {"blogTitle": req.body.blogTitle, "blogText": req.body.blogText, "dateStamp": req.body.dateStamp, "email": req.body.email, "userName": req.body.userName}},
+ 	     { $set: {"blogTitle": req.body.blogTitle, "blogText": req.body.blogText}},
 	     function(err, response) {
 	         if (err) {
 	  	         sendJSONresponse(res, 400, err);

@@ -122,18 +122,21 @@ app.config(function ($locationProvider, $routeProvider) {
 app.controller('homeCtrl', function homeCtrl() {
     	var vm = this;
     	vm.title = "Brandon A. Weiler\'s Blog Site";
-    	vm.message = "Welcome to my blog! Have fun reading my random thoughts!";
+    	vm.message = "Welcome to the greatest blogging site this side of Sagittarius A*";
 });
 
 app.controller('listCtrl',['$http', '$scope', 'authentication',  function listCtrl($http, $scope, authentication){
 	var vm = this;
-	vm.title = "Brandon A. Weiler\'s Blog Site";
-	vm.message = "List of Blog Entries";
+	vm.title = "List of All Blog Entries";
+	
 	
 	vm.isLoggedIn = function() {
 		return authentication.isLoggedIn();
 	}
 
+  vm.correctUser = function(){
+    return authentication.currentUser().name;
+  }
 	getBlogList($http)
 		.then(function (data){
 			$scope.blogs = data.data;
@@ -145,10 +148,10 @@ app.controller('listCtrl',['$http', '$scope', 'authentication',  function listCt
 }]);
 
 app.controller('addCtrl',[ '$http', '$location', 'authentication', function addCtrl($http, $location, authentication) {
-	var vm = this;
+	    var vm = this;
     	vm.blog = {};
-    	vm.title = "Brandon A. Weiler\'s Blog Site";
-		  vm.message = "Add A Blog Entry";
+    	vm.title = "Add A New Blog Entry";
+		  
 	
       vm.onSubmit = function() {
 
@@ -172,8 +175,7 @@ app.controller('addCtrl',[ '$http', '$location', 'authentication', function addC
 
 app.controller('editCtrl', [ '$http', '$routeParams', '$scope', '$location', 'authentication',  function editCtrl($http, $routeParams, $scope, $location, authentication) {
     var vm = this;
-    vm.title = "Brandon A. Weiler\'s Blog Site";
-    vm.message = "Edit Your Blog";
+    vm.title = "Edit Your Blog Entry";
     vm.id = $routeParams.id;
 
     readOneEntry($http, vm.id)
@@ -202,8 +204,7 @@ app.controller('editCtrl', [ '$http', '$routeParams', '$scope', '$location', 'au
 
 app.controller('deleteCtrl', [ '$http', '$routeParams', '$scope','$location', 'authentication', function deleteCtrl($http, $routeParams, $scope, $location, authentication) {
     var vm = this;
-    vm.title = "Brandon A. Weiler\'s Blog Site";
-    vm.message = "Delete Your Blog";
+    vm.title = "Delete Your Blog Entry";
     vm.id = $routeParams.id;
     readOneEntry($http, vm.id)
     	.then(function(data) {
