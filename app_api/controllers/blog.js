@@ -62,7 +62,9 @@ module.exports.blogList = function(req, res) {
 		blogTitle: obj.blogTitle,
 		blogText: obj.blogText,
 		dateStamp: obj.dateStamp,
-		_id: obj._id
+		_id: obj._id,
+		email: obj.email,
+		userName: obj.userName
 	  });
 	});
 	return blogs;
@@ -76,6 +78,8 @@ module.exports.blogCreate = function(req, res) {
 		blogTitle: req.body.blogTitle,
 		blogText: req.body.blogText,
 		dateStamp: req.body.dateStamp,
+		email: req.body.email,
+		userName: req.body.userName
 		
 	   }, function(err, blog) {
 		 if (err) {
@@ -96,7 +100,7 @@ module.exports.blogUpdateOne = function(req, res) {
     Blog
   	  .findOneAndUpdate(
 	     { _id: req.params.blogid },
- 	     { $set: {"blogTitle": req.body.blogTitle, "blogText": req.body.blogText, "dateStamp": req.body.dateStamp}},
+ 	     { $set: {"blogTitle": req.body.blogTitle, "blogText": req.body.blogText, "dateStamp": req.body.dateStamp, "email": req.body.email, "userName": req.body.userName}},
 	     function(err, response) {
 	         if (err) {
 	  	         sendJSONresponse(res, 400, err);

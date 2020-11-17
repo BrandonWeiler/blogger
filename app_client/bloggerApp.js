@@ -155,7 +155,9 @@ app.controller('addCtrl',[ '$http', '$location', 'authentication', function addC
 	      var data = vm.blog;
 
 	      data.blogTitle = userForm.blogTitle.value;
-	      data.blogText = userForm.blogText.value;
+        data.blogText = userForm.blogText.value;
+        data.email = authentication.currentUser().email;
+        data.userName = authentication.currentUser().name;
 
 	      addOneEntry($http, data, authentication)
 		      .then(function successCallBack(data) {

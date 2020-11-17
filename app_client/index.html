@@ -38,8 +38,8 @@
 						<p id="blogTitle">{{ entry.blogTitle }}</p>
 						<p id="blogText">{{ entry.blogText }}</p>
 						<p id="date">{{ entry.dateStamp | date:'short' }}</p>
-						<a ng-show="vm.isLoggedIn()" href="/blogedit/{{ entry._id }}">Edit Blog</a><p>     </p>
-						<a ng-show="vm.isLoggedIn()" href="/blogdelete/{{ entry._id }}">Delete Blog</a>
+						<a ng-show="vm.isLoggedIn() && vm.correctUser() === blog.blog_userName" href="/blogedit/{{blog._id}}" class="card-link"><i class="fas fa-edit"></i></a>
+						<a ng-show="vm.isLoggedIn() && vm.correctUser() === blog.blog_userName" href="/blogdelete/{{blog._id}}" class="card-link"><i class="fas fa-trash-alt"></i></a>
 						<br><br>
 					</div>	
 				</div>
@@ -50,7 +50,6 @@
 					<p id="homeTitle">{{vm.title}}</p>
 					<p id="homeContent">{{vm.message}}</p>
 				</div>
-				<form name="userForm" ng-Controller="addCtrl" ng-submit="vm.onSubmit()">
 					<div class="form-group">
 						  <label id= "blogAddLabel">Blog Title:</label>
 						  <input type="text" class="form-control" placeholder="Enter the Blog Entry Title" id="blogTitle" name="blogTitle">
