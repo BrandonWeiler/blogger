@@ -119,15 +119,30 @@ app.config(function ($locationProvider, $routeProvider) {
     });
 
 //*** Controllers ***
-app.controller('homeCtrl', function homeCtrl() {
+app.controller('homeCtrl',['$http', '$scope', 'authentication',  function homeCtrl($http, $scope, authentication) {
     	var vm = this;
-    	vm.title = "Brandon A. Weiler\'s Blog Site";
-    	vm.message = "Welcome to the greatest blogging site this side of Sagittarius A*";
-});
+    	vm.title = "PinG";
+      
+      vm.isLoggedIn = function() {
+        return authentication.isLoggedIn();
+      }
+    
+      vm.correctUser = function(){
+        return authentication.currentUser().name;
+      }
+      getBlogList($http)
+        .then(function (data){
+          $scope.blogs = data.data;
+          console.log(data);
+        },
+        function (e){
+          vm.message = "Could not get blog list";
+        });
+}]);
 
 app.controller('listCtrl',['$http', '$scope', 'authentication',  function listCtrl($http, $scope, authentication){
 	var vm = this;
-	vm.title = "List of All Blog Entries";
+	vm.title = authentication.currentUser().name;
 	
 	
 	vm.isLoggedIn = function() {
@@ -143,14 +158,14 @@ app.controller('listCtrl',['$http', '$scope', 'authentication',  function listCt
 			console.log(data);
 		},
 		function (e){
-			vm.message = "Could not get blog list";
+			vm.message = "Could not get PinG list";
 		});
 }]);
 
 app.controller('addCtrl',[ '$http', '$location', 'authentication', function addCtrl($http, $location, authentication) {
 	    var vm = this;
     	vm.blog = {};
-    	vm.title = "Add A New Blog Entry";
+    	vm.title = "Add A New PinG";
 		  
 	
       vm.onSubmit = function() {
@@ -175,7 +190,7 @@ app.controller('addCtrl',[ '$http', '$location', 'authentication', function addC
 
 app.controller('editCtrl', [ '$http', '$routeParams', '$scope', '$location', 'authentication',  function editCtrl($http, $routeParams, $scope, $location, authentication) {
     var vm = this;
-    vm.title = "Edit Your Blog Entry";
+    vm.title = "Edit Your PinG";
     vm.id = $routeParams.id;
 
     readOneEntry($http, vm.id)
@@ -193,37 +208,37 @@ app.controller('editCtrl', [ '$http', '$routeParams', '$scope', '$location', 'au
 
     	updateOneEntry($http, data, vm.id, authentication)
     		.then(function(data) {
-    		    vm.message = "Entry updated.";
+    		    vm.message = "PinG updated.";
     		    $location.path('/bloglist');
     		},
     		function(e) {
-    			vm.message = "Could not update blog entry with id: " + vm.id;
+    			vm.message = "Could not update PinG with id: " + vm.id;
     		});
     }
 }]);
 
 app.controller('deleteCtrl', [ '$http', '$routeParams', '$scope','$location', 'authentication', function deleteCtrl($http, $routeParams, $scope, $location, authentication) {
     var vm = this;
-    vm.title = "Delete Your Blog Entry";
+    vm.title = "Delete Your PinG";
     vm.id = $routeParams.id;
     readOneEntry($http, vm.id)
     	.then(function(data) {
     		$scope.blog = data.data;
-    		vm.message = "Are you sure you wish to delete this entry?"
+    		vm.message = "Are you sure you wish to delete this PinG?"
 	},
     	function(e) {
-    	vm.message = "Could not get blog entry with id: " + vm.id;
+    	vm.message = "Could not get PinG with id: " + vm.id;
     });
 
     vm.onSubmit = function() {
 
     	deleteOneEntry($http,vm.id, authentication)
     		.then(function(data) {
-    		    vm.message = "Blog Deleted Successfully!";
+    		    vm.message = "PinG Deleted Successfully!";
     		    $location.path('/bloglist');
     		},
     		function(e) {
-    			vm.message = "Could not update blog entry with id: " + vm.id;
+    			vm.message = "Could not update PinG with id: " + vm.id;
     		});
     }
 
@@ -231,7 +246,7 @@ app.controller('deleteCtrl', [ '$http', '$routeParams', '$scope','$location', 'a
 app.controller('loginCtrl', [ '$http', '$location', 'authentication', function loginCtrl($htttp, $location, authentication) {
     var vm = this;
 
-    vm.title = 'Sign in to Blog';
+    vm.title = 'Sign in to PinG';
 
     vm.credentials = {
       email : "",
@@ -265,7 +280,7 @@ app.controller('loginCtrl', [ '$http', '$location', 'authentication', function l
 app.controller('registerCtrl', [ '$http', '$location', 'authentication', function registerCtrl($htttp, $location, authentication) {
     var vm = this;
 
-    vm.title = 'Create a new Blog account'
+    vm.title = 'Create a PinG account'
 
     vm.credentials = {
       name : "",

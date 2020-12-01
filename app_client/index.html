@@ -3,6 +3,7 @@
 	<head>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
 		<script
       		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.1/angular.min.js"
       		integrity="sha512-QFmqHpmYymVcJudvGsU3IDBfwnTOdfmY42YUwyORin2namhG6FCku8MiSc6igF2OIwChlEuFkvuwNo6pbMOUSg=="
@@ -24,10 +25,18 @@
 			<script type="text/ng-template" id="pages/home.html">
 				<div id="home">
 						<p id="homeTitle">{{vm.title}}</p>
-						<p id="homeContent">{{vm.message}}</p>
-						<p id="homeContent"><img src="https://cdn.mos.cms.futurecdn.net/QVxn4uaidqj4ZxuT7d7kqf-970-80.jpg.webp"></p>
-						<p id="homeContent">**not to scale**</p>
-   			 	</div>
+				</div>
+				<div ng-repeat="entry in blogs">
+					<div id="blog">
+						<p id="blogTitle">{{ entry.blogTitle }}</p>
+						<p id="blogText">{{ entry.blogText }}</p>
+						<p id="date">Published by: <b>{{entry.userName}}</b> on {{ entry.dateStamp | date:'short' }}</p>
+						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogedit/{{entry._id}}">>Edit PinG<</a><p>     </p>
+						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogdelete/{{entry._id}}">>Delete PinG<</a>
+						<p id="blogTitle">------------------------------------------------------------------------------------------------------</p>
+						<br><br>
+					</div>	
+				</div>
 			</script>
 				
 			<script type="text/ng-template" id="pages/bloglist.html">
@@ -35,12 +44,12 @@
 					<p id="homeTitle">{{ vm.title }}</p>
 				</div>
 				<div ng-repeat="entry in blogs">
-					<div id="blog">
+					<div ng-show="vm.correctUser() === entry.userName" id="blog">
 						<p id="blogTitle">{{ entry.blogTitle }}</p>
 						<p id="blogText">{{ entry.blogText }}</p>
 						<p id="date">Published by: <b>{{entry.userName}}</b> on {{ entry.dateStamp | date:'short' }}</p>
-						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogedit/{{entry._id}}">>Edit Blog<</a><p>     </p>
-						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogdelete/{{entry._id}}">>Delete Blog<</a>
+						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogedit/{{entry._id}}">>Edit PinG<</a><p>     </p>
+						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogdelete/{{entry._id}}">>Delete PinG<</a>
 						<p id="blogTitle">------------------------------------------------------------------------------------------------------</p>
 						<br><br>
 					</div>	
@@ -53,12 +62,12 @@
 				</div>
 				<form name="userForm" ng-Controller="addCtrl" ng-submit="vm.onSubmit()">
 					<div class="form-group">
-						  <label id= "blogAddLabel">Blog Title:</label>
-						  <input type="text" class="form-control" placeholder="Enter the Blog Entry Title" id="blogTitle" name="blogTitle">
+						  <label id= "blogAddLabel">PinG Title:</label>
+						  <input type="text" class="form-control" placeholder="Enter the PinG Title" id="blogTitle" name="blogTitle">
 					</div>	
 					<div class="form-group">
-						<label id="blogAddLabel" for="blogText">Blog Text:</label>
-						<textarea type="text" class="form-control" name="blogText" rows="20" placeholder="Blog Entry Goes Here!"></textarea>
+						<label id="blogAddLabel" for="blogText">PinG Text:</label>
+						<textarea type="text" class="form-control" name="blogText" rows="20" placeholder="PinG Goes Here!"></textarea>
 					</div>
 					<button type="submit">Submit</button>
 			    </form>
@@ -70,14 +79,14 @@
 				</div>
 				<form name="userForm" ng-Controller="editCtrl" ng-submit="vm.onSubmit()">
 					<div class="form-group">
-						<label id="blogAddLabel" for="blogTitle">Blog Title:</label>
+						<label id="blogAddLabel" for="blogTitle">PinG Title:</label>
 						<input type="text" class="form-control"  id="blogTitle" name="blogTitle" value= "{{blog.blogTitle}}">
 					</div>
 					<div class="form-group">
-						<label id="blogAddLabel" for="blogText">Blog Text:</label>
+						<label id="blogAddLabel" for="blogText">PinG Text:</label>
 						<textarea type="text" class= "form-control" name="blogText" rows="20" >{{blog.blogText}}</textarea>
 					</div>
-					<button type="submit">Save Entry</button>
+					<button type="submit">Save PinG</button>
 				   </form>	
 			</script>
 
@@ -87,14 +96,14 @@
 				</div>
 				<form name="userForm" ng-Controller="deleteCtrl" ng-submit="vm.onSubmit()">
 					<div class="form-group">
-						<label id="blogAddLabel" for="blogTitle">Blog Title:</label>
+						<label id="blogAddLabel" for="blogTitle">PinG Title:</label>
 						<input type="text" class="form-control"  id="blogTitle" name="blogTitle" value= "{{blog.blogTitle}}" readonly>
 					</div>
 					<div class="form-group">
-						<label id="blogAddLabel" for="blog_text">Blog Text:</label>
+						<label id="blogAddLabel" for="blog_text">PinG Text:</label>
 						<textarea type="text" class= "form-control" name="blogText" rows="20" readonly>{{blog.blogText}}</textarea>
 					</div>
-					<button type="submit">Delete this entry</button>
+					<button type="submit">Delete this PinG</button>
 					<a href="/bloglist" > Cancel </a>
 				</form>
 			</script>
