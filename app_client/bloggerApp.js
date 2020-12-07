@@ -142,7 +142,7 @@ app.controller('homeCtrl',['$http', '$scope', 'authentication',  function homeCt
 
 app.controller('listCtrl',['$http', '$scope', 'authentication',  function listCtrl($http, $scope, authentication){
 	var vm = this;
-	vm.title = authentication.currentUser().name;
+	vm.title = "My PinGs";
 	
 	
 	vm.isLoggedIn = function() {

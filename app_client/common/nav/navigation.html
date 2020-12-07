@@ -1,19 +1,19 @@
 <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-#800000">
-	<a class="navbar-brand" href="/">PinG</a>
+	<a class="navbar-brand" href="/"><i class="fas fa-satellite"></i> PinG</a>
 	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 		<div class="navbar-nav">
 		<ul class="navbar-nav mr-auto">
       				
 				<li class="nav-item">
-				  <a class="nav-link"href="/bloglist">{{vm.currentUser().name}}</a>
+				  <a class="nav-link"href="/bloglist">{{vm.currentUser().name}}  </a>
 				</li>
 
 		  		<li class="nav-item">
-				  <a ng-show="vm.isLoggedIn()" class="nav-link" href="/blogadd"><i class="far fa-plus-square"></i></a>
+				  <a ng-show="vm.isLoggedIn()" class="nav-link" href="/blogadd"><i class="far fa-plus-square"></i>  </a>
 				</li>
 
 		  		<li class="nav-item">
-			  		<a ng-show="!vm.isLoggedIn()"  class="nav-link" href="/login"> Login</a>
+			  		<a ng-show="!vm.isLoggedIn()"  class="nav-link" href="/login">   Login</a>
 		  		</li>
 
 		 		 <li class="nav-item">
