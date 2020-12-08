@@ -131,36 +131,19 @@ module.exports.blogDeleteOne = function(req, res) {
 
 /* Add comment to ping */
 module.exports.commentAdd = function(req, res) {
-//	console.log("Adding comment to ping with id of " + req.params.blogid);
-//	console.log(req.body);
-//	const commentID = req.body.blogid;
-//	const comment = req.body.commentText;
-//	const cName = req.body.commentName;
-//
-//	const newComment = new Comment({
-//		commentID,
-//		comment,
-//		cName,
-//		commentDateStamp,
-//	});
-//
-//	newComment.save()
-//	.then(() => res.json('Comment added'))
-//
-	//.catch(err => res.status(400).json('Error: ' + err));
      console.log(req.body);
      Comment
 	.create({
 		commentID: req.body.commentID,
 		commentText: req.body.commentText,
 		commentName: req.body.commentName,
-		commentDateStamp: req.body.commentDateStamp
+		pingRating: req.body.pingRating
+	
 	}, function(err, comment) {
 		if (err) {
 			console.log(err);
 			sendJSONresponse(res, 400, err);
 		} else {
-		//	console.log(comment);
 			sendJSONresponse(res, 201, comment);
 		}
 	}
@@ -169,11 +152,6 @@ module.exports.commentAdd = function(req, res) {
 };
 
 /* Get comments for a particular ping */
-//module.exports.commentGet = function(req, res) {
-//	Comment.find({commentID: req.params.blogid})
-//	.then(() => res.json(res.data))
-//    .catch(err => res.status(400).json('Error: ' + err));
-//}
 
 module.exports.commentGet = function(req, res){
 	console.log('Getting list of comments');
@@ -201,7 +179,8 @@ var buildCommentList = function(req, res, results){
 			commentID: obj.commentID,
 			commentText: obj.commentText,
 			commentName: obj.commentName,
-			commentDateStamp: obj.commentDateStamp
+			commentDate: obj.commentDate,
+			pingRating: obj.pingRating
 			});
 	});
 	return comments;

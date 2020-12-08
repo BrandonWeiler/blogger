@@ -31,9 +31,9 @@
 						<p id="blogTitle">{{ entry.blogTitle }}</p>
 						<p id="blogText">{{ entry.blogText }}</p>
 						<p id="date">Published by: <b>{{entry.userName}}</b> on {{ entry.dateStamp | date:'short' }}</p>
-						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogedit/{{entry._id}}">>Edit PinG<</a><p>     </p>
-						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogdelete/{{entry._id}}">>Delete PinG<</a>
-						<a ng-show="vm.isLoggedIn()" href="/comment/{{entry._id}}">>Comment<</a>
+						<a ng-show="vm.isLoggedIn()" id="commentLink" href="/comment/{{entry._id}}">>Comments<</a><p></p>
+						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogedit/{{entry._id}}">>Edit PinG<</a>
+						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogdelete/{{entry._id}}">>Delete PinG<</a><p></p>
 						<p id="blogTitle">------------------------------------------------------------------------------------------------------</p>
 						<br><br>
 					</div>	
@@ -49,9 +49,9 @@
 						<p id="blogTitle">{{ entry.blogTitle }}</p>
 						<p id="blogText">{{ entry.blogText }}</p>
 						<p id="date">Published by: <b>{{entry.userName}}</b> on {{ entry.dateStamp | date:'short' }}</p>
-						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogedit/{{entry._id}}">>Edit PinG<</a><p>     </p>
-						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogdelete/{{entry._id}}">>Delete PinG<</a>
-						<a ng-show="vm.isLoggedIn()" href="/comment/{{entry._id}}">>Comment<</a>
+						<a ng-show="vm.isLoggedIn()" id="commentLink" href="/comment/{{entry._id}}">>Comments<</a><p></p>
+						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogedit/{{entry._id}}">>Edit PinG<</a>
+						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogdelete/{{entry._id}}">>Delete PinG<</a><p></p>
 						<p id="blogTitle">------------------------------------------------------------------------------------------------------</p>
 						<br><br>
 					</div>	
@@ -66,12 +66,14 @@
 					<div class="form-group">
 						  <label id= "blogAddLabel">PinG Title:</label>
 						  <input type="text" class="form-control" placeholder="Enter the PinG Title" id="blogTitle" name="blogTitle">
-					</div>	
-					<div class="form-group">
-						<label id="blogAddLabel" for="blogText">PinG Text:</label>
-						<textarea type="text" class="form-control" name="blogText" rows="20" placeholder="PinG Goes Here!"></textarea>
 					</div>
-					<button type="submit">Submit</button>
+					<div>
+						<div class="form-group">
+							<label id="blogAddLabel" for="blogText">PinG Text:</label>
+							<textarea type="text" class="form-control" name="blogText" rows="20" placeholder="PinG Goes Here!"></textarea>
+						</div>
+						<button type="submit">Submit</button>
+					</div>
 			    </form>
 			</script>
 
@@ -96,14 +98,21 @@
 				<div id='home'>
 					<p id="homeTitle">{{vm.title}}</p>
 				</div>
+				<div id="blog">
+					<p id="blogTitle">{{blog.blogTitle}}</p>
+					<p id="blogText">{{blog.blogText}}</p>
+				</div>
 				<div ng-Controller="commentCtrl">
-					<div id="blogAddLabel" ng-repeat="comment in comments" ng-show="{{comment.commentID === vm.id}}">
-						<p>{{comment.commentText}}     {{comment.commentName}}      {{comment.commentDateStamp}}</p>
+					<div id="commentBlock" ng-repeat="comment in comments" ng-show="{{comment.commentID === vm.id}}">
+						<p id="commentText">{{comment.commentText}}</p>
+						<p id="commentName">{{comment.commentName}}----{{comment.commentDate | date:'short'}}----Rating:{{comment.pingRating}}</p>
 					</div>
 				</div>
 				<form name="userForm" ng-Controller="commentCtrl" ng-submit="vm.onSubmit()">
 					<div class="form-group">
-						<input type="text" id="commentBlock" class="form-control" name="commentText"> 
+						<input type="text" id="commentBlock" class="form-control" name="commentText">
+						<label id="pingRating" for="pingRating">Rate this PinG!(1-10)</label>
+						<input type="number" for="pingRating" name="pingRating" min="1" max="10">
 					</div>
 					<button type="submit">Comment</button>
 				</form>

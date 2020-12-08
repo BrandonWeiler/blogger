@@ -127,7 +127,7 @@ app.config(function ($locationProvider, $routeProvider) {
 //*** Controllers ***
 app.controller('homeCtrl',['$http', '$scope', 'authentication',  function homeCtrl($http, $scope, authentication) {
     	var vm = this;
-    	vm.title = "PinG";
+    	vm.title = "PinG: Taking blogging into the future.";
       
       vm.isLoggedIn = function() {
         return authentication.isLoggedIn();
@@ -223,11 +223,17 @@ app.controller('editCtrl', [ '$http', '$routeParams', '$scope', '$location', 'au
     }
 }]);
 
-app.controller('commentCtrl', [ '$http', '$routeParams', '$scope', '$location', 'authentication',  function commentCtrl($http, $routeParams, $scope, $location, authentication) {
+app.controller('commentCtrl', [ '$http', '$window', '$routeParams', '$scope', '$location', 'authentication',  function commentCtrl($http, $window, $routeParams, $scope, $location, authentication) {
   var vm = this;
   vm.title = "comment on this PinG";
     vm.id = $routeParams.id;
     vm.comment = {};
+
+    readOneEntry($http, vm.id)
+	.then(function(data) {
+		$scope.blog = data.data;
+	});
+
     getComments($http, vm.id)
 	.then(function(data) {
 	    $scope.comments = data.data;
@@ -244,10 +250,11 @@ app.controller('commentCtrl', [ '$http', '$routeParams', '$scope', '$location', 
 		data.commentID = vm.id;
 		data.commentName = authentication.currentUser().name;
 		data.commentText = userForm.commentText.value;
+		data.pingRating = userForm.pingRating.value;
 
   		 addComment($http, data, vm.id, authentication)
 			.then(function(data) {
-			$location.path('/comment/' + vm.id);
+		        $window.location.reload();
 			},
 			function(e){
 				vm.message ="couldnt add one";

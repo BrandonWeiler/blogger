@@ -54,7 +54,7 @@ a {
 
 #homeTitle {
     text-align: center;
-    font-size: 50pt;
+    font-size: 25pt;
     color: silver;
     text-decoration: underline;
     padding: 25px;
@@ -106,4 +106,26 @@ a {
     text-align: center;
     font-size: 36pt;
     font-variant: small-caps;
+}
+#commentBlock {
+	padding: 30px;
+}
+#commentText {
+	color: white;
+	font-size: 20pt;
+	padding: 10px;
+	background-color: gray;
+}
+#commentName {
+	color: silver;
+	text-align: right;
+	font-size: 16pt;
+}
+#commentLink {
+	color: #800000;
+	font-size: 16pt;
+}
+#pingRating {
+	color: white;
+	font-size: 16pt;
 }

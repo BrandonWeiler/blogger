@@ -15,6 +15,7 @@ var commentSchema = new mongoose.Schema({
     commentID: String,
     commentText: String,
     commentName: String,
+    pingRating: String,
     commentDate: {
 	    type: Date,
 	    "default": Date.now
