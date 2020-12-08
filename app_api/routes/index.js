@@ -10,6 +10,8 @@ var auth = jwt({
 
 router.get('/blog', ctrlBlog.blogList);
 router.get('/blog/:blogid', ctrlBlog.blogReadOne);
+router.post('/blog/comment/:blogid', ctrlBlog.commentAdd);
+router.get('/blog/comment/:blogid', ctrlBlog.commentGet);
 router.put('/blog/:blogid', auth, ctrlBlog.blogUpdateOne);
 router.post('/blog', auth, ctrlBlog.blogCreate);
 router.delete('/blog/:blogid', auth, ctrlBlog.blogDeleteOne);

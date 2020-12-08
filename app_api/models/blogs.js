@@ -10,5 +10,17 @@ var blogSchema = new mongoose.Schema({
         "default": Date.now
     },
 });                
-                
+
+var commentSchema = new mongoose.Schema({
+    commentID: String,
+    commentText: String,
+    commentName: String,
+    commentDate: {
+	    type: Date,
+	    "default": Date.now
+    },
+
+});
+
 mongoose.model('Blog', blogSchema);
+mongoose.model('Comment', commentSchema);

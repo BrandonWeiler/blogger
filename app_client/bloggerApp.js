@@ -95,7 +95,13 @@ app.config(function ($locationProvider, $routeProvider) {
 	        templateUrl: 'pages/blogedit.html',
 		  	controller: 'editCtrl',
 		  	controllerAs: 'vm'
-		  })
+      })
+      
+      .when('/comment/:id', {
+        templateUrl: 'pages/comment.html',
+      controller: 'commentCtrl',
+      controllerAs: 'vm'
+      })
 
 		.when('/blogdelete/:id', {
 			templateUrl: 'pages/blogdelete.html',
@@ -216,6 +222,41 @@ app.controller('editCtrl', [ '$http', '$routeParams', '$scope', '$location', 'au
     		});
     }
 }]);
+
+app.controller('commentCtrl', [ '$http', '$routeParams', '$scope', '$location', 'authentication',  function commentCtrl($http, $routeParams, $scope, $location, authentication) {
+  var vm = this;
+  vm.title = "comment on this PinG";
+    vm.id = $routeParams.id;
+    vm.comment = {};
+    getComments($http, vm.id)
+	.then(function(data) {
+	    $scope.comments = data.data;
+	    console.log(data);
+	    vm.message = "comments retreived";
+	},
+		function(e){
+		  vm.message = "nah, bruh";
+	      });
+
+
+	vm.onSubmit = function() {
+                 var data = vm.comment;
+		data.commentID = vm.id;
+		data.commentName = authentication.currentUser().name;
+		data.commentText = userForm.commentText.value;
+
+  		 addComment($http, data, vm.id, authentication)
+			.then(function(data) {
+			$location.path('/comment/' + vm.id);
+			},
+			function(e){
+				vm.message ="couldnt add one";
+			});
+	}
+
+ 
+}]);
+
 
 app.controller('deleteCtrl', [ '$http', '$routeParams', '$scope','$location', 'authentication', function deleteCtrl($http, $routeParams, $scope, $location, authentication) {
     var vm = this;
@@ -355,4 +396,12 @@ function addOneEntry($http, data, authentication) {
 
 function deleteOneEntry($http, blogid, authentication) {
     return $http.delete('/api/blog/' + blogid, { headers: { Authorization: 'Bearer '+ authentication.getToken() }});
+}
+
+function addComment($http, data, blogid, authentication){
+  return $http.post('/api/blog/comment/' + blogid, data, {headers: { Authorization: 'Bearer '+ authentication.getToken()}});
+}
+
+function getComments($http, blogid){
+  return $http.get('/api/blog/comment/' + blogid);
 }

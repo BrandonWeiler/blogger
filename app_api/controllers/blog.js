@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var Blog = mongoose.model('Blog');
+var Comment = mongoose.model('Comment');
+
 var sendJSONresponse = function(res, status, content){
 	res.status(status);
 	res.json(content);
@@ -125,4 +127,82 @@ module.exports.blogDeleteOne = function(req, res) {
                 }
             }
         );
-};                   
+};
+
+/* Add comment to ping */
+module.exports.commentAdd = function(req, res) {
+//	console.log("Adding comment to ping with id of " + req.params.blogid);
+//	console.log(req.body);
+//	const commentID = req.body.blogid;
+//	const comment = req.body.commentText;
+//	const cName = req.body.commentName;
+//
+//	const newComment = new Comment({
+//		commentID,
+//		comment,
+//		cName,
+//		commentDateStamp,
+//	});
+//
+//	newComment.save()
+//	.then(() => res.json('Comment added'))
+//
+	//.catch(err => res.status(400).json('Error: ' + err));
+     console.log(req.body);
+     Comment
+	.create({
+		commentID: req.body.commentID,
+		commentText: req.body.commentText,
+		commentName: req.body.commentName,
+		commentDateStamp: req.body.commentDateStamp
+	}, function(err, comment) {
+		if (err) {
+			console.log(err);
+			sendJSONresponse(res, 400, err);
+		} else {
+		//	console.log(comment);
+			sendJSONresponse(res, 201, comment);
+		}
+	}
+	);
+
+};
+
+/* Get comments for a particular ping */
+//module.exports.commentGet = function(req, res) {
+//	Comment.find({commentID: req.params.blogid})
+//	.then(() => res.json(res.data))
+//    .catch(err => res.status(400).json('Error: ' + err));
+//}
+
+module.exports.commentGet = function(req, res){
+	console.log('Getting list of comments');
+	Comment
+		.find()
+		.exec(function(err, results){
+			if(!results){
+				sendJSONresponse(res, 404, {
+					"message": "no comments found"
+				});
+				return;
+			} else if (err){
+				console.log(err);
+				sendJSONresponse(res, 404, err);
+				return;
+			}
+			console.log(results);
+			sendJSONresponse(res, 200, buildCommentList(req, res, results));
+		});
+};
+var buildCommentList = function(req, res, results){
+	var comments = [];
+	results.forEach(function(obj) {
+		comments.push({
+			commentID: obj.commentID,
+			commentText: obj.commentText,
+			commentName: obj.commentName,
+			commentDateStamp: obj.commentDateStamp
+			});
+	});
+	return comments;
+};

@@ -33,6 +33,7 @@
 						<p id="date">Published by: <b>{{entry.userName}}</b> on {{ entry.dateStamp | date:'short' }}</p>
 						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogedit/{{entry._id}}">>Edit PinG<</a><p>     </p>
 						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogdelete/{{entry._id}}">>Delete PinG<</a>
+						<a ng-show="vm.isLoggedIn()" href="/comment/{{entry._id}}">>Comment<</a>
 						<p id="blogTitle">------------------------------------------------------------------------------------------------------</p>
 						<br><br>
 					</div>	
@@ -50,6 +51,7 @@
 						<p id="date">Published by: <b>{{entry.userName}}</b> on {{ entry.dateStamp | date:'short' }}</p>
 						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogedit/{{entry._id}}">>Edit PinG<</a><p>     </p>
 						<a ng-show="vm.isLoggedIn() && vm.correctUser() === entry.userName" href="/blogdelete/{{entry._id}}">>Delete PinG<</a>
+						<a ng-show="vm.isLoggedIn()" href="/comment/{{entry._id}}">>Comment<</a>
 						<p id="blogTitle">------------------------------------------------------------------------------------------------------</p>
 						<br><br>
 					</div>	
@@ -88,6 +90,24 @@
 					</div>
 					<button type="submit">Save PinG</button>
 				   </form>	
+			</script>
+
+			<script type="text/ng-template" id="pages/comment.html">
+				<div id='home'>
+					<p id="homeTitle">{{vm.title}}</p>
+				</div>
+				<div ng-Controller="commentCtrl">
+					<div id="blogAddLabel" ng-repeat="comment in comments" ng-show="{{comment.commentID === vm.id}}">
+						<p>{{comment.commentText}}     {{comment.commentName}}      {{comment.commentDateStamp}}</p>
+					</div>
+				</div>
+				<form name="userForm" ng-Controller="commentCtrl" ng-submit="vm.onSubmit()">
+					<div class="form-group">
+						<input type="text" id="commentBlock" class="form-control" name="commentText"> 
+					</div>
+					<button type="submit">Comment</button>
+				</form>
+
 			</script>
 
 			<script type="text/ng-template" id="pages/blogdelete.html">
